@@ -1,0 +1,44 @@
+class Solution {
+    int count(int[] arr, int n, int x) {
+        int start = 0, end = n - 1;
+        int si = -1, di = -1;
+        
+        // Find the first occurrence of x
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            if (arr[mid] == x) {
+                si = mid;
+                end = mid - 1; // Look for a possible earlier occurrence
+            } else if (arr[mid] < x) {
+                start = mid + 1;
+            } else {
+                end = mid - 1;
+            }
+        }
+
+        // Reset start and end for finding the last occurrence of x
+        start = 0;
+        end = n - 1;
+        
+        // Find the last occurrence of x
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            if (arr[mid] == x) {
+                di = mid;
+                start = mid + 1; // Look for a possible later occurrence
+            } else if (arr[mid] < x) {
+                start = mid + 1;
+            } else {
+                end = mid - 1;
+            }
+        }
+
+        // If x is not found in the array, return 0
+        if (si == -1 || di == -1) {
+            return 0;
+        }
+
+        // Return the count of occurrences
+        return di - si + 1;
+    }
+}
